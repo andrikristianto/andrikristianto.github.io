@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Specular Creative — Andri Kristianto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F2ED;
+    --warm-white: #FAFAF8;
+    --ink: #1A1A18;
+    --ink-light: #4A4A45;
+    --ink-muted: #7A7A73;
+    --accent: #C8B99A;
+    --accent-dark: #8B7355;
+    --border: rgba(26,26,24,0.1);
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--warm-white);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 24px;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-back {
+    font-size: 13px; color: var(--ink-muted); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--ink); }
+  .nav-logo { font-family: var(--serif); font-size: 18px; color: var(--ink); text-decoration: none; }
+
+  /* HEADER */
+  .header {
+    padding: 100px 24px 48px;
+    max-width: 680px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-eyebrow {
+    font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink-muted);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .header-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--ink-muted); display: inline-block; }
+  .header-title {
+    font-family: var(--serif);
+    font-size: clamp(36px, 9vw, 56px);
+    line-height: 1.05; margin-bottom: 8px; color: var(--ink);
+  }
+  .header-title em { font-style: italic; color: var(--accent-dark); }
+  .header-period {
+    font-size: 13px; color: var(--ink-muted); margin-bottom: 24px;
+  }
+  .header-desc {
+    font-size: clamp(14px, 2vw, 16px);
+    color: var(--ink-light); line-height: 1.7; max-width: 520px;
+  }
+
+  /* SKILL TAGS */
+  .skills-section {
+    padding: 32px 24px;
+    max-width: 680px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .skills-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-muted); margin-bottom: 14px;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag {
+    font-size: 12px; font-weight: 500;
+    padding: 6px 14px; border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--cream); color: var(--ink-light);
+  }
+
+  /* BRAND SECTION */
+  .brands-section {
+    padding: 40px 24px 80px;
+    max-width: 680px; margin: 0 auto;
+  }
+  .brands-label {
+    font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-muted);
+    margin-bottom: 6px; display: flex; align-items: center; gap: 10px;
+  }
+  .brands-label::before { content: ''; width: 20px; height: 1px; background: var(--ink-muted); display: inline-block; }
+  .brands-count { font-size: 13px; color: var(--ink-muted); margin-bottom: 24px; }
+
+  .brand-list { display: flex; flex-direction: column; gap: 0; }
+
+  .brand-item {
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .brand-item:first-child { border-top: 1px solid var(--border); }
+
+  .brand-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 0; cursor: pointer; gap: 16px;
+  }
+  .brand-header:hover .brand-name { color: var(--accent-dark); }
+
+  .brand-left { flex: 1; }
+  .brand-name { font-size: clamp(14px, 2vw, 16px); font-weight: 500; color: var(--ink); transition: color 0.2s; margin-bottom: 4px; }
+  .brand-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .brand-industry {
+    font-size: 11px; color: var(--ink-muted);
+  }
+  .brand-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .brand-tag-pill {
+    font-size: 10px; padding: 2px 8px; border-radius: 100px;
+    background: var(--cream); color: var(--accent-dark);
+    border: 1px solid rgba(139,115,85,0.2); font-weight: 500;
+  }
+  .brand-toggle {
+    font-size: 20px; color: var(--ink-muted);
+    transition: transform 0.25s; flex-shrink: 0; line-height: 1;
+  }
+  .brand-item.open .brand-toggle { transform: rotate(45deg); }
+
+  .brand-detail {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+    padding: 0;
+  }
+  .brand-item.open .brand-detail {
+    max-height: 1000px;
+    padding-bottom: 24px;
+  }
+
+  .brand-scope {
+    font-size: 13px; color: var(--ink-light); line-height: 1.7;
+    margin-bottom: 16px; padding: 12px 16px;
+    background: var(--cream); border-radius: 10px;
+    border-left: 3px solid var(--accent);
+    border-radius: 0;
+  }
+
+  /* Image grid */
+  .brand-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin-bottom: 14px;
+  }
+  .brand-img-slot {
+    aspect-ratio: 1;
+    background: var(--cream);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .brand-img-slot img {
+    width: 100%; height: 100%; object-fit: cover; display: none;
+  }
+  .brand-img-placeholder {
+    text-align: center; color: var(--ink-muted); font-size: 10px; padding: 8px;
+    line-height: 1.4;
+  }
+
+  /* Notes / highlight */
+  .brand-note {
+    font-size: 12px; color: var(--ink-muted);
+    font-style: italic; margin-top: 8px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 20px 24px; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--cream);
+  }
+  .footer-name { font-family: var(--serif); font-size: 16px; }
+  .footer-copy { font-size: 11px; color: var(--ink-muted); }
+
+  .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-back">← Kembali</a>
+  <a href="index.html" class="nav-logo">AK.</a>
+</nav>
+
+<!-- HEADER -->
+<div class="header fade-in">
+  <div class="header-eyebrow">Achievement · Agency</div>
+  <h1 class="header-title">Specular<br><em>Creative</em></h1>
+  <div class="header-period">Jan 2023 – Aug 2025 &nbsp;·&nbsp; Senior Digital Marketing Strategist</div>
+  <p class="header-desc">
+    Selama di Specular, saya menangani lebih dari 10 brand secara bersamaan. Untuk hampir semua brand, scope kerja saya mencakup: menyusun content plan, membuat brief kreatif, menulis caption, posting ke sosial media, hingga menjalankan paid ads (Meta, Google, TikTok) dan marketplace marketing. Beberapa brand juga melibatkan pekerjaan tambahan seperti rebranding dan strategi launching.
+  </p>
+</div>
+
+<!-- SKILL TAGS -->
+<div class="skills-section fade-in">
+  <div class="skills-label">Yang saya kerjakan di semua brand</div>
+  <div class="skill-tags">
+    <span class="skill-tag">Content Planning</span>
+    <span class="skill-tag">Creative Brief</span>
+    <span class="skill-tag">Caption & Copywriting</span>
+    <span class="skill-tag">Social Media Management</span>
+    <span class="skill-tag">Meta Ads</span>
+    <span class="skill-tag">Google Ads</span>
+    <span class="skill-tag">TikTok Ads</span>
+    <span class="skill-tag">Marketplace Marketing</span>
+    <span class="skill-tag">Mood Board</span>
+    <span class="skill-tag">Pitch Deck</span>
+    <span class="skill-tag">Launching Strategy</span>
+    <span class="skill-tag">Rebranding</span>
+  </div>
+</div>
+
+<!-- BRAND LIST -->
+<div class="brands-section fade-in">
+  <div class="brands-label">Brand yang dihandle</div>
+  <p class="brands-count">12 brand · klik untuk lihat detail</p>
+
+  <div class="brand-list">
+
+    <!-- STELLA'S PUFF PASTRY -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Stella's Puff Pastry</div>
+          <div class="brand-meta">
+            <span class="brand-industry">F&B</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Content Plan</span>
+              <span class="brand-tag-pill">Sosial Media</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Menyusun plan, creative brief, hingga posting sosial media.
+        </div>
+        <div class="brand-images">
+          <!--
+            CARA TAMBAH GAMBAR:
+            1. Simpan gambar di folder images/specular/stellas/
+            2. Ganti src di bawah, hapus style="display:none"
+          -->
+          <div class="brand-img-slot">
+            <img src="images/specular/stellas/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/stellas/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/stellas/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AROMA DELIVERY SYSTEM -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Aroma Delivery System</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Lifestyle / Wellness</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Content Plan</span>
+              <span class="brand-tag-pill">Meta Ads</span>
+              <span class="brand-tag-pill">Google Ads</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Menyusun plan, creative brief, hingga posting sosial media. Menjalankan Meta Ads dan Google Ads.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/aroma/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/aroma/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/aroma/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PUREVIBE -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">PureVibe</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Lifestyle</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Built from Scratch</span>
+              <span class="brand-tag-pill">Meta Ads</span>
+              <span class="brand-tag-pill">Google Ads</span>
+              <span class="brand-tag-pill">Marketplace</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Membangun creative dari nol. Menyusun plan, brief, posting sosial media. Menjalankan Meta Ads dan Google Ads, serta handle marketplace marketing.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/purevibe/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/purevibe/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/purevibe/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BY GAIL -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">By Gail</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Fashion / Lifestyle</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Copywriting</span>
+              <span class="brand-tag-pill">Meta Ads</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Copywriting dan posting konten sosial media. Menjalankan Meta Ads.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/bygail/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/bygail/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/bygail/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MONALEASE -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Monalease</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Fashion &nbsp;·&nbsp; 3 sub-brand</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Copywriting</span>
+              <span class="brand-tag-pill">Meta Ads</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Menangani 3 akun sekaligus: <strong>Monalease</strong>, <strong>Monalease Studio</strong>, dan <strong>Monalease Catalogue</strong>. Copywriting, posting konten, dan menjalankan Meta Ads untuk ketiganya.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/monalease/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/monalease/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/monalease/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AYUMIE -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Ayumie</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Beauty / Skincare</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Content Plan</span>
+              <span class="brand-tag-pill">Meta Ads</span>
+              <span class="brand-tag-pill">Marketplace</span>
+              <span class="brand-tag-pill">Rebranding</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Menyusun plan, brief, posting sosial media. Menjalankan Meta Ads dan handle marketplace marketing. Membuat mood board untuk rebranding Key Visual (KV).
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/ayumie/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/ayumie/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/ayumie/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+        <div class="brand-note">Termasuk mood board untuk rebranding KV</div>
+      </div>
+    </div>
+
+    <!-- GORRY GOURME -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Gorry Gourme</div>
+          <div class="brand-meta">
+            <span class="brand-industry">F&B</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Content Plan</span>
+              <span class="brand-tag-pill">Meta Ads</span>
+              <span class="brand-tag-pill">Google Ads</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Menyusun plan, creative brief, hingga posting sosial media. Menjalankan Meta Ads dan Google Ads.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/gorry/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/gorry/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/gorry/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHEEMAR -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Sheemar</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Fashion / Modest Wear</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Content Plan</span>
+              <span class="brand-tag-pill">Sosial Media</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Menyusun plan, creative brief, hingga posting sosial media.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/sheemar/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/sheemar/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/sheemar/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPECULAR (brand itu sendiri) -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Specular Creative</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Agency (brand sendiri)</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Content Plan</span>
+              <span class="brand-tag-pill">Sosial Media</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Mengelola konten sosial media untuk brand agensi itu sendiri — menyusun plan, brief, dan posting.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/specular/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/specular/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/specular/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOOMAIRE -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Bloomaire</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Lifestyle / Retail</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Content Plan</span>
+              <span class="brand-tag-pill">Launching Strategy</span>
+              <span class="brand-tag-pill">Pop Up Store</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Menyusun plan, strategi, dan eksekusi launching pop up store — dari konten promosi hingga strategi marketing di hari H.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/bloomaire/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/bloomaire/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/bloomaire/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POPMART -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Popmart</div>
+          <div class="brand-meta">
+            <span class="brand-industry">Retail / Collectibles</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Brainstorm</span>
+              <span class="brand-tag-pill">Store Launching</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Terlibat dalam sesi brainstorm strategi untuk launching store baru.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/popmart/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/popmart/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/popmart/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAKED DOUGH -->
+    <div class="brand-item">
+      <div class="brand-header">
+        <div class="brand-left">
+          <div class="brand-name">Naked Dough</div>
+          <div class="brand-meta">
+            <span class="brand-industry">F&B</span>
+            <div class="brand-tags">
+              <span class="brand-tag-pill">Brainstorm</span>
+              <span class="brand-tag-pill">Rebranding</span>
+            </div>
+          </div>
+        </div>
+        <div class="brand-toggle">+</div>
+      </div>
+      <div class="brand-detail">
+        <div class="brand-scope">
+          Terlibat dalam sesi brainstorm untuk strategi rebranding.
+        </div>
+        <div class="brand-images">
+          <div class="brand-img-slot">
+            <img src="images/specular/nakeddough/1.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/nakeddough/2.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+          <div class="brand-img-slot">
+            <img src="images/specular/nakeddough/3.jpg" alt="">
+            <div class="brand-img-placeholder">Tambah<br>gambar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span class="footer-name">Andri Kristianto</span>
+  <a href="index.html" style="font-size: 13px; color: var(--ink-muted); text-decoration: none;">← Kembali ke portfolio</a>
+</footer>
+
+<script>
+  document.querySelectorAll('.brand-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.brand-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.brand-img-slot img').forEach(img => {
+    img.addEventListener('load', () => {
+      img.style.display = 'block';
+      if (img.nextElementSibling) img.nextElementSibling.style.display = 'none';
+    });
+    img.addEventListener('error', () => { img.style.display = 'none'; });
+  });
+</script>
+
+</body>
+</html>
